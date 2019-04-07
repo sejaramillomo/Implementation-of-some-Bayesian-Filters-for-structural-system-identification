@@ -200,19 +200,54 @@ end
 
 % Kalman Filter error
 err_d1_kf = (x_kf(1, :) - x(1, 2:end))./x(1, 2:end);
-err_d2_kf = (x_kf(2, :) - x(2, 2:end))./x(2, 2:end);
+var_d1_kf = var(err_d1_kf); m_d1_kf = mean(err_d1_kf);
+ms_d1_kf = var_d1_kf + m_d1_kf^2;
 err_v1_kf = (x_kf(3, :) - x(3, 2:end))./x(3, 2:end);
+var_v1_kf = var(err_v1_kf); m_v1_kf = mean(err_v1_kf);
+ms_v1_kf = var_v1_kf + m_v1_kf^2;
+m_d1_kf, m_v1_kf, var_d1_kf, var_v1_kf, ms_d1_kf, ms_v1_kf
+
+err_d2_kf = (x_kf(2, :) - x(2, 2:end))./x(2, 2:end);
+var_d2_kf = var(err_d2_kf); m_d2_kf = mean(err_d2_kf);
+ms_d2_kf = var_d2_kf + m_d2_kf^2;
 err_v2_kf = (x_kf(4, :) - x(4, 2:end))./x(4, 2:end);
+var_v2_kf = var(err_v2_kf); m_v2_kf = mean(err_v2_kf);
+ms_v2_kf = var_v2_kf + m_v2_kf^2;
+m_d2_kf, m_v2_kf, var_d2_kf, var_v2_kf, ms_d2_kf, ms_v2_kf
+
 % Unscented Kalman Filter error
 err_d1_ukf = (x_ukf(1, :) - x(1, 2:end))./x(1, 2:end);
-err_d2_ukf = (x_ukf(2, :) - x(2, 2:end))./x(2, 2:end);
+var_d1_ukf = var(err_d1_ukf); m_d1_ukf = mean(err_d1_ukf);
+ms_d1_ukf = var_d1_ukf + m_d1_ukf^2;
 err_v1_ukf = (x_ukf(3, :) - x(3, 2:end))./x(3, 2:end);
+var_v1_ukf = var(err_v1_ukf); m_v1_ukf = mean(err_v1_ukf);
+ms_v1_ukf = var_v1_ukf + m_v1_ukf^2;
+m_d1_ukf, m_v1_ukf, var_d1_ukf, var_v1_ukf, ms_d1_ukf, ms_v1_ukf
+
+err_d2_ukf = (x_ukf(2, :) - x(2, 2:end))./x(2, 2:end);
+var_d2_ukf = var(err_d2_ukf); m_d2_ukf = mean(err_d2_ukf);
+ms_d2_ukf = var_d2_ukf + m_d2_ukf^2;
 err_v2_ukf = (x_ukf(4, :) - x(4, 2:end))./x(4, 2:end);
+var_v2_ukf = var(err_v2_ukf); m_v2_ukf = mean(err_v2_ukf);
+ms_v2_ukf = var_v2_ukf + m_v2_ukf^2;
+m_d2_ukf, m_v2_ukf, var_d2_ukf, var_v2_ukf, ms_d2_ukf, ms_v2_ukf
+
 % Particle Filter error
 err_d1_pf = (x_pf(1, :) - x(1, 2:end))./x(1, 2:end);
-err_d2_pf = (x_pf(2, :) - x(2, 2:end))./x(2, 2:end);
+var_d1_pf = var(err_d1_pf); m_d1_pf = mean(err_d1_pf);
+ms_d1_pf = var_d1_pf + m_d1_pf^2;
 err_v1_pf = (x_pf(3, :) - x(3, 2:end))./x(3, 2:end);
+var_v1_pf = var(err_v1_pf); m_v1_pf = mean(err_v1_pf);
+ms_v1_pf = var_v1_pf + m_v1_pf^2;
+m_d1_pf, m_v1_pf, var_d1_pf, var_v1_pf, ms_d1_pf, ms_v1_pf
+
+err_d2_pf = (x_pf(2, :) - x(2, 2:end))./x(2, 2:end);
+var_d2_pf = var(err_d2_pf); m_d2_pf = mean(err_d2_pf);
+ms_d2_pf = var_d2_pf + m_d2_pf^2;
 err_v2_pf = (x_pf(4, :) - x(4, 2:end))./x(4, 2:end);
+var_v2_pf = var(err_v2_pf); m_v2_pf = mean(err_v2_pf);
+ms_v2_pf = var_v2_pf + m_v2_pf^2;
+m_d2_pf, m_v2_pf, var_d2_pf, var_v2_pf, ms_d2_pf, ms_v2_pf
 
 %% Plots
 
@@ -254,7 +289,7 @@ d_kf_sd = fill([t t(end:-1:1)], ...
                [x_kf(1, :)+sd_kf(1, :) x_kf(1, end:-1:1)-sd_kf(1, end:-1:1)], ...
                [0.8 0.8 1], 'EdgeColor', 'none');
 d_kf = plot(t, x_kf(1, :),  '-b');
-d = plot(t, x(1, 2:end), '-r');
+d = plot(t, x(1, 2:end), '--r');
 legend([d, d_kf, d_kf_sd], 'True signal', 'KF', '1 Standard deviation', ...
        'Location', 'southeast', ...
        'Orientation', 'horizontal')
@@ -270,7 +305,7 @@ v_kf_sd = fill([t t(end:-1:1)], ...
                [x_kf(3, :)+sd_kf(3, :) x_kf(3, end:-1:1)-sd_kf(3, end:-1:1)], ...
                [0.8 0.8 1], 'EdgeColor', 'none');
 v_kf = plot(t, x_kf(3, :),  '-b');
-v = plot(t, x(3, 2:end), '-r');
+v = plot(t, x(3, 2:end), '--r');
 ylabel('Velocity [$m/s$]')
 xlabel('Time [$s$]')
 ymax = ceil(max(abs([x_kf(3, :)+sd_kf(3, :) x_kf(3, end:-1:1)-sd_kf(3, end:-1:1)]))*10)/10;
@@ -287,7 +322,7 @@ d_kf_sd = fill([t t(end:-1:1)], ...
                [x_kf(2, :)+sd_kf(2, :) x_kf(2, end:-1:1)-sd_kf(2, end:-1:1)], ...
                [0.8 0.8 1], 'EdgeColor', 'none');
 d_kf = plot(t, x_kf(2, :),  '-b');
-d = plot(t, x(2, 2:end), '-r');
+d = plot(t, x(2, 2:end), '--r');
 legend([d, d_kf, d_kf_sd], 'True signal', 'KF', '1 Standard deviation', ...
        'Location', 'southeast', ...
        'Orientation', 'horizontal')
@@ -303,7 +338,7 @@ v_kf_sd = fill([t t(end:-1:1)], ...
                [x_kf(4, :)+sd_kf(4, :) x_kf(4, end:-1:1)-sd_kf(4, end:-1:1)], ...
                [0.8 0.8 1], 'EdgeColor', 'none');
 v_kf = plot(t, x_kf(4, :),  '-b');
-v = plot(t, x(4, 2:end), '-r');
+v = plot(t, x(4, 2:end), '--r');
 ylabel('Velocity [$m/s$]')
 xlabel('Time [$s$]')
 ymax = ceil(max(abs([x_kf(4, :)+sd_kf(4, :) x_kf(4, end:-1:1)-sd_kf(4, end:-1:1)]))*10)/10;
@@ -322,7 +357,7 @@ d_ukf_sd = fill([t t(end:-1:1)], ...
                [x_ukf(1, :)+sd_ukf(1, :) x_ukf(1, end:-1:1)-sd_ukf(1, end:-1:1)], ...
                [0.8 0.8 1], 'EdgeColor', 'none');
 d_ukf = plot(t, x_ukf(1, :),  '-b');
-d = plot(t, x(1, 2:end), '-r');
+d = plot(t, x(1, 2:end), '--r');
 legend([d, d_ukf, d_ukf_sd], 'True signal', 'UKF', '1 Standard deviation', ...
        'Location', 'southeast', ...
        'Orientation', 'horizontal')
@@ -338,7 +373,7 @@ v_ukf_sd = fill([t t(end:-1:1)], ...
                 [x_ukf(3, :)+sd_ukf(3, :) x_ukf(3, end:-1:1)-sd_ukf(3, end:-1:1)], ...
                 [0.8 0.8 1], 'EdgeColor', 'none');
 v_ukf = plot(t, x_ukf(3, :),  '-b');
-v = plot(t, x(3, 2:end), '-r');
+v = plot(t, x(3, 2:end), '--r');
 ylabel('Velocity [$m/s$]')
 xlabel('Time [$s$]')
 ymax = ceil(max(abs([x_ukf(3, :)+sd_ukf(3, :) x_ukf(3, end:-1:1)-sd_ukf(3, end:-1:1)]))*10)/10;
@@ -355,7 +390,7 @@ d_ukf_sd = fill([t t(end:-1:1)], ...
                [x_ukf(2, :)+sd_ukf(2, :) x_ukf(2, end:-1:1)-sd_ukf(2, end:-1:1)], ...
                [0.8 0.8 1], 'EdgeColor', 'none');
 d_ukf = plot(t, x_ukf(2, :),  '-b');
-d = plot(t, x(2, 2:end), '-r');
+d = plot(t, x(2, 2:end), '--r');
 legend([d, d_ukf, d_ukf_sd], 'True signal', 'UKF', '1 Standard deviation', ...
        'Location', 'southeast', ...
        'Orientation', 'horizontal')
@@ -371,7 +406,7 @@ v_ukf_sd = fill([t t(end:-1:1)], ...
                 [x_ukf(4, :)+sd_ukf(4, :) x_ukf(4, end:-1:1)-sd_ukf(4, end:-1:1)], ...
                 [0.8 0.8 1], 'EdgeColor', 'none');
 v_ukf = plot(t, x_ukf(4, :),  '-b');
-v = plot(t, x(4, 2:end), '-r');
+v = plot(t, x(4, 2:end), '--r');
 ylabel('Velocity [$m/s$]')
 xlabel('Time [$s$]')
 ymax = ceil(max(abs([x_ukf(4, :)+sd_ukf(4, :) x_ukf(4, end:-1:1)-sd_ukf(4, end:-1:1)]))*10)/10;
@@ -390,7 +425,7 @@ d_pf_sd = fill([t t(end:-1:1)], ...
                [per_pf(1, :) per_pf(5, end:-1:1)], ...
                [0.8 0.8 1], 'EdgeColor', 'none');
 d_pf = plot(t, x_pf(1, :),  '-b');
-d = plot(t, x(1, 2:end), '-r');
+d = plot(t, x(1, 2:end), '--r');
 leg_pf = sprintf('PF N = %d', Ns);
 legend([d, d_pf, d_pf_sd], 'True signal', leg_pf, '$P_{15.87}$ and $P_{84.13}$', ...
        'Location', 'southeast', ...
@@ -407,7 +442,7 @@ v_pf_sd = fill([t t(end:-1:1)], ...
                [per_pf(3, :) per_pf(7, end:-1:1)], ...
                [0.8 0.8 1], 'EdgeColor', 'none');
 v_pf = plot(t, x_pf(3, :),  '-b');
-v = plot(t, x(3, 2:end), '-r');
+v = plot(t, x(3, 2:end), '--r');
 ylabel('Velocity [$m/s$]')
 xlabel('Time [$s$]')
 ymax = ceil(max(abs([per_pf(3, :) per_pf(7, end:-1:1)]))*10)/10;
@@ -424,7 +459,7 @@ d_pf_sd = fill([t t(end:-1:1)], ...
                [per_pf(2, :) per_pf(6, end:-1:1)], ...
                [0.8 0.8 1], 'EdgeColor', 'none');
 d_pf = plot(t, x_pf(2, :),  '-b');
-d = plot(t, x(2, 2:end), '-r');
+d = plot(t, x(2, 2:end), '--r');
 leg_pf = sprintf('PF N = %d', Ns);
 legend([d, d_pf, d_pf_sd], 'True signal', leg_pf, '$P_{15.87}$ and $P_{84.13}$', ...
        'Location', 'southeast', ...
@@ -441,7 +476,7 @@ v_pf_sd = fill([t t(end:-1:1)], ...
                [per_pf(4, :) per_pf(8, end:-1:1)], ...
                [0.8 0.8 1], 'EdgeColor', 'none');
 v_pf = plot(t, x_pf(4, :),  '-b');
-v = plot(t, x(4, 2:end), '-r');
+v = plot(t, x(4, 2:end), '--r');
 ylabel('Velocity [$m/s$]')
 xlabel('Time [$s$]')
 ymax = ceil(max(abs([per_pf(4, :) per_pf(8, end:-1:1)]))*10)/10;
@@ -454,24 +489,39 @@ figure
 % Displacement Error
 subplot(211)
 hold on
-e_d_kf  = plot(t, err_d1_kf , '-b');
-e_d_ukf = plot(t, err_d1_ukf, '-g');
-e_d_pf  = plot(t, err_d1_pf , '-y'); l_pf = sprintf('PF N = %d', Ns);
+err = [err_d1_kf; err_d1_ukf; err_d1_pf];
+b_w = (max(max(err, [], 2)) - min(min(err, [], 2)))/(3*ceil(sqrt(N)));
+e_d_kf  = histogram(err_d1_kf, ...
+                    'BinWidth', b_w, ...
+                    'Normalization', 'probability');
+e_d_ukf = histogram(err_d1_ukf, ...
+                    'BinWidth', b_w, ...
+                    'Normalization', 'probability');
+e_d_pf  = histogram(err_d1_pf, ...
+                    'BinWidth', b_w, ...
+                    'Normalization', 'probability');
+l_pf = sprintf('PF N = %d', Ns);
 legend([e_d_kf, e_d_ukf, e_d_pf], 'KF', 'UKF', l_pf, ...
-       'Location', 'southeast', ...
+       'Location', 'northwest', ...
        'Orientation', 'horizontal')
 ylabel('Displacement error')
-xlabel('Time [$s$]')
 axis tight
 
 % Velocity Error
 subplot(212)
 hold on
-e_v_kf  = plot(t, err_v1_kf , '-b');
-e_v_ukf = plot(t, err_v1_ukf, '-g');
-e_v_pf  = plot(t, err_v1_pf , '-y');
+err = [err_v1_kf; err_v1_ukf; err_v1_pf];
+b_w = (max(max(err, [], 2)) - min(min(err, [], 2)))/(3*ceil(sqrt(N)));
+e_v_kf  = histogram(err_v1_kf, ...
+                    'BinWidth', b_w, ...
+                    'Normalization', 'probability');
+e_v_ukf = histogram(err_v1_ukf, ...
+                    'BinWidth', b_w, ...
+                    'Normalization', 'probability');
+e_v_pf  = histogram(err_v1_pf, ...
+                    'BinWidth', b_w, ...
+                    'Normalization', 'probability');
 ylabel('Velocity error')
-xlabel('Time [$s$]')
 axis tight
 
 print('/home/sebastian/Tesis/Latex/figures/MATLAB/error_tdof1', '-depsc')
@@ -481,24 +531,39 @@ figure
 % Displacement Error
 subplot(211)
 hold on
-e_d_kf  = plot(t, err_d2_kf , '-b');
-e_d_ukf = plot(t, err_d2_ukf, '-g');
-e_d_pf  = plot(t, err_d2_pf , '-y'); l_pf = sprintf('PF N = %d', Ns);
+err = [err_d2_kf; err_d2_ukf; err_d2_pf];
+b_w = (max(max(err, [], 2)) - min(min(err, [], 2)))/(3*ceil(sqrt(N)));
+e_d_kf  = histogram(err_d2_kf, ...
+                    'BinWidth', b_w, ...
+                    'Normalization', 'probability');
+e_d_ukf = histogram(err_d2_ukf, ...
+                    'BinWidth', b_w, ...
+                    'Normalization', 'probability');
+e_d_pf  = histogram(err_d2_pf, ...
+                    'BinWidth', b_w, ...
+                    'Normalization', 'probability');
+l_pf = sprintf('PF N = %d', Ns);
 legend([e_d_kf, e_d_ukf, e_d_pf], 'KF', 'UKF', l_pf, ...
-       'Location', 'southeast', ...
+       'Location', 'northeast', ...
        'Orientation', 'horizontal')
 ylabel('Displacement error')
-xlabel('Time [$s$]')
 axis tight
 
 % Velocity Error
 subplot(212)
 hold on
-e_v_kf  = plot(t, err_v2_kf , '-b');
-e_v_ukf = plot(t, err_v2_ukf, '-g');
-e_v_pf  = plot(t, err_v2_pf , '-y');
+err = [err_v2_kf; err_v2_ukf; err_v2_pf];
+b_w = (max(max(err, [], 2)) - min(min(err, [], 2)))/(3*ceil(sqrt(N)));
+e_v_kf  = histogram(err_v2_kf, ...
+                    'BinWidth', b_w, ...
+                    'Normalization', 'probability');
+e_v_ukf = histogram(err_v2_ukf, ...
+                    'BinWidth', b_w, ...
+                    'Normalization', 'probability');
+e_v_pf  = histogram(err_v2_pf, ...
+                    'BinWidth', b_w, ...
+                    'Normalization', 'probability');
 ylabel('Velocity error')
-xlabel('Time [$s$]')
 axis tight
 
 print('/home/sebastian/Tesis/Latex/figures/MATLAB/error_tdof2', '-depsc')
